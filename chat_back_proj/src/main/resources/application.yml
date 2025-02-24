@@ -1,0 +1,44 @@
+server:
+  port: 5000
+
+spring:
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/chatdb
+  
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+    listener:
+      simple:
+        retry:
+          enabled: true
+          initial-interval: 2000
+          max-attempts: 5
+          max-interval: 5000
+          multiplier: 2
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+  profiles:
+    include: secret
+
+jwt:
+  secret: "chatApplicationSecretKey123!@#$%^&*()_+chatApplicationSecretKey123!@#$%^&*()_+"  # 최소 256비트(32바이트) 이상
+  access-token-validity: 3600000  # 1시간
+  refresh-token-validity: 604800000  # 7일
+
+cloud:
+  aws:
+    credentials:
+      access-key: ${AWS_ACCESS_KEY_ID}
+      secret-key: ${AWS_SECRET_ACCESS_KEY}
+    region:
+      static: ${AWS_REGION}
+    s3:
+      bucket: ${AWS_S3_BUCKET}
+    stack:
+      auto: false
